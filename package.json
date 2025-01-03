@@ -1,7 +1,7 @@
 {
   "name": "vue-i18n-xlsx-view",
-  "version": "1.0.0",
-  "description": "A tool for converting between XLSX and JSON formats.",
+  "version": "1.0.1",
+  "description": "专为 Vue 2 框架设计的多语言 JSON 与表格互转的可视化组件，旨在简化和优化多语言数据的管理和编辑。",
   "main": "dist/index.js",
   "module": "",
   "author": "何梦蛟",
