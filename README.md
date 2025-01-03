@@ -152,4 +152,4 @@ export default {
 如果在使用过程中遇到问题或有改进建议，可以通过以下方式联系：
 
 - **GitHub Issues**: [提交问题](https://github.com/your-repo/vue-i18n-xlsx-view/issues)
-- **Email**: your-email@example.com
+- **Email**: mengjiao.he@itiaoling.com
