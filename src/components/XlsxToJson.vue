@@ -114,9 +114,9 @@
     </div>
     <div class="tip">
       PS: [语言横版]便于产品/运营翻译或开发转换为JSON; [语言竖版]便于导入
-      <a style="color: #107ce8;" href="https://linguist.orangeconnex.com/keyManagement" target="_blank">
+      <!--<a style="color: #107ce8;" href="https://linguist.orangeconnex.com/keyManagement" target="_blank">
         多语言管理平台
-      </a>
+      </a>-->
     </div>
   </div>
   <div class="downloadForm">

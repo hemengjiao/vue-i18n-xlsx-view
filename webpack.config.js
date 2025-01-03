@@ -10,7 +10,7 @@ export default {
   entry: './src/index.js', // 插件入口文件
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'xlsx-to-json.esm.js', // 输出为 ESM 文件
+    filename: 'index.js', // 输出为 ESM 文件
     library: {
       type: 'module', // 指定输出格式为 ESM
     },

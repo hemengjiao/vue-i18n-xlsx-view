@@ -1,106 +1,155 @@
-# xlsx-to-json
+# vue-i18n-xlsx-view
 
-A Vue 2.x component for converting XLSX files to JSON format, with built-in support for Element-UI.
+[![Node.js](https://img.shields.io/badge/Node.js-16%2B-blue)](https://nodejs.org/)
+[![Vue 2](https://img.shields.io/badge/Vue.js-2.6%2B-brightgreen)](https://v2.vuejs.org/)
+[![Element UI](https://img.shields.io/badge/Element--UI-2.13%2B-orange)](https://element.eleme.io/)
 
-## Features
+`vue-i18n-xlsx-view` 是一个专为 Vue 2 框架设计的多语言 JSON 与表格互转的可视化组件，旨在简化和优化多语言数据的管理和编辑。
 
-- Upload XLSX files and convert them to JSON format.
-- Compatible with Vue 2.x.
-- Lightweight and easy to integrate.
-- Built-in support for Element-UI.
+## 特性
 
-## Installation
+- **JSON 与 xlsx 互转**：支持将 JSON 格式的多语言文件导出为表格或从表格导入生成 JSON。
+- **直观的 UI 界面**：提供用户友好的界面，支持在线编辑和预览多语言数据。
+- **高效的多语言管理**：轻松处理多语言项目中的复杂数据。
+- **兼容性好**：专为 Vue 2 设计，适配各种 Vue 项目。
 
-Install the package via npm:
+## 效果
+
+![img.png](img.png)
+
+## 安装
 
 ```bash
-npm install xlsx-to-json
+npm install vue-i18n-xlsx-view --save
 ```
 
-## Usage
+## 使用方法
 
-### 1. Import and Register
+### 全局引入
 
-In your main JavaScript file:
+在主入口文件（如 `main.js`）中引入并注册：
 
 ```javascript
 import Vue from 'vue';
-import XlsxToJson from 'xlsx-to-json';
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
+import VueI18nXlsxView from 'vue-i18n-xlsx-view';
 
-Vue.use(ElementUI);
-Vue.use(XlsxToJson);
+Vue.use(VueI18nXlsxView);
 ```
 
-### 2. Use in Template
+### 组件内使用
 
-In your Vue component:
+在需要的组件中直接使用：
 
 ```vue
 <template>
   <div>
-    <xlsx-to-json @convert="handleConvert" />
+    <vue-i18n-xlsx-view ref="xlsxToJson" />
   </div>
 </template>
 
 <script>
 export default {
-  methods: {
-    handleConvert(data) {
-      console.log('Converted JSON data:', data);
-    },
+  data() {
+    return {
+      jsonData: {
+        en: {
+          greeting: {
+            hello: 'Hello'
+          },       
+          farewell: {
+            goodbye: 'Goodbye'
+          }
+        },
+        zh: {
+          greeting: {
+            hello: '你好'
+          },          
+          farewell: {
+            goodbye: '再见'
+          }
+        }
+      }
+    };
   },
+  
+  mounted() {
+    // 配置项
+    let options = {
+      // 当前项目名称
+      projectName: 'xxx',
+      // 基准语言 - json配置转表格列表时与模块列表获取都会以该语言为基准, 请确保该语言是配置最齐全的语言
+      baseLang: 'zh-CN',
+      // 默认选中语言
+      langSelect: ['zh-CN', 'en-US'],
+      // 当前默认模块
+      module: [],
+      // 屏蔽模块 - 字符串,逗号分隔
+      shieldingModule: 'el',
+      // 语言配置
+      langConfig: [
+        {
+          data: this.jsonData.zh || {}, // json数据
+          lang: 'zh-CN', // 语言关键字
+          label: '中文', // 语言名称
+        },
+        {
+          data: this.jsonData.en || {},
+          lang: 'en-US',
+          label: '英文',
+        },
+      ],
+    }
+    // 初始化
+    this.$refs.xlsxToJson.init(options)
+  }
 };
 </script>
+
+<style scoped>
+/* 可根据需求自定义样式 */
+</style>
 ```
 
-### Props
+## 属性
 
-| Prop       | Type   | Default | Description                        |
-|------------|--------|---------|------------------------------------|
-| `accept`   | String | `.xlsx` | Specifies the accepted file types |
+| 属性名      | 类型     | 默认值 | 描述                                                                       |
+| ----------- | -------- | ------ |--------------------------------------------------------------------------|
+| `projectName`   | String    | `''`     | 当前项目的名称，用于区分不同项目的多语言配置, 导出表格时, 会使用该配置。                                   |
+| `baseLang`      | String    | `'zh-CN'`| 基准语言，用于转换 JSON 到表格时的参考语言，建议选择包含完整数据的语言。                                  |
+| `langSelect`    | Array     | `[]`     | 默认选中的语言列表，按需选择需要显示的语言，例如 `['zh-CN', 'en-US']`。                           |
+| `module`        | Array     | `[]`     | 当前默认的模块，用于选择要显示的语言模块。                                                    |
+| `shieldingModule`| String   | `''`     | 屏蔽的模块，支持逗号分隔的字符串，用于隐藏不需要展示的模块或语言, 比如element-ui的el模块。                     |
+| `langConfig`    | Array     | `[]`     | 语言配置数组，包含语言数据、语言关键字及其标签，例如 `{ data: zhCn, lang: 'zh-CN', label: '中文' }`。 |
+| `langConfig.lang`| String   | `''`     | 语言的关键字，用于指定该配置项对应的语言标识符。                                                 |
+| `langConfig.label`| String  | `''`     | 显示的语言名称。                                                      |
+| `langConfig.data`| Object   | `{}`     | 当前语言对应的 JSON 数据，包含该语言的键值对翻译内容。                                           |
 
-### Events
+## 开发与贡献
 
-| Event      | Description                                  |
-|------------|----------------------------------------------|
-| `convert`  | Emits the converted JSON data as an argument |
+欢迎为本插件贡献代码或提出建议！
 
-## Development
+### 本地开发
 
-To run the project locally for development:
-
-1. Clone the repository:
-
+1. 克隆代码库：
    ```bash
-   git clone https://github.com/hemengjiao/xlsx-to-json.git
-   cd xlsx-to-json
+   git clone https://github.com/your-repo/vue-i18n-xlsx-view.git
    ```
-
-2. Install dependencies:
-
+2. 安装依赖：
    ```bash
    npm install
    ```
-
-3. Build the project:
-
+3. 启动开发环境：
    ```bash
-   npm run build
+   npm run serve
    ```
 
-## License
+## 许可证
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+[MIT](LICENSE)
 
-## Contributing
+## 联系方式
 
-Contributions are welcome! Please submit issues and pull requests to help improve this project.
+如果在使用过程中遇到问题或有改进建议，可以通过以下方式联系：
 
-## Links
-
-- [Repository](https://github.com/hemengjiao/xlsx-to-json)
-- [Issues](https://github.com/hemengjiao/xlsx-to-json/issues)
-- [NPM Package](https://www.npmjs.com/package/xlsx-to-json)
-
+- **GitHub Issues**: [提交问题](https://github.com/your-repo/vue-i18n-xlsx-view/issues)
+- **Email**: your-email@example.com
