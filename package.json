@@ -1,0 +1,58 @@
+{
+  "name": "xlsx-to-json",
+  "version": "1.0.0",
+  "description": "A tool for converting between XLSX and JSON formats.",
+  "module": "dist/xlsx-to-json.esm.js",
+  "author": "何梦蛟",
+  "license": "MIT",
+  "type": "module",
+  "keywords": [
+    "xlsx",
+    "json",
+    "vue",
+    "tool",
+    "converter"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hemengjiao/xlsx-to-json.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hemengjiao/xlsx-to-json/issues"
+  },
+  "homepage": "https://github.com/hemengjiao/xlsx-to-json#readme",
+  "scripts": {
+    "build": "webpack"
+  },
+  "peerDependencies": {
+    "vue": "^2.6.0"
+  },
+  "dependencies": {
+    "element-ui": "^2.15.14",
+    "xlsx": "^0.18.5",
+    "file-saver": "1.3.8"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-loader": "^8.0.0",
+    "css-loader": "^6.11.0",
+    "file-loader": "^6.0.0",
+    "sass": "^1.83.0",
+    "sass-loader": "^12.6.0",
+    "style-loader": "^3.3.0",
+    "vue-loader": "^15.11.1",
+    "vue-style-loader": "^4.0.0",
+    "vue-template-compiler": "2.6.12",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ]
+}
