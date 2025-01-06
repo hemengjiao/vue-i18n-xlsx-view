@@ -141,14 +141,17 @@
           </el-radio-group>
         </div>
         <div class="tip">
-          PS: [语言横版]便于产品/运营翻译或开发转换为JSON; [语言竖版]便于导入
-          <!--<a
-            style="color: #107ce8"
-            href="https://linguist.orangeconnex.com/keyManagement"
-            target="_blank"
-          >
-            多语言管理平台
-          </a>-->
+          PS: [语言横版]便于产品/运营翻译或开发转换为JSON;
+          <span v-if="platformUrl">
+            [语言竖版]便于导入
+            <a
+              style="color: #107ce8"
+              :href="platformUrl"
+              target="_blank"
+            >
+              多语言管理平台
+            </a>
+          </span>
         </div>
       </div>
       <div class="downloadForm">
@@ -172,13 +175,16 @@
         </el-select>
         <span></span>
         <el-button type="primary" size="mini" @click="getLanguageConfig"
-          >查询列表</el-button
+        >查询列表
+        </el-button
         >
         <el-button type="primary" size="mini" @click="exportTable"
-          >导出表格</el-button
+        >导出表格
+        </el-button
         >
         <el-button type="primary" size="mini" @click="copyTable"
-          >复制表格</el-button
+        >复制表格
+        </el-button
         >
         <span>屏蔽模块：</span>
         <el-input
@@ -213,8 +219,8 @@
           <template slot-scope="scope">
             <span v-if="column.prop === 'project'">{{ projectName }}</span>
             <span v-else-if="column.prop === 'index'">{{
-              scope.$index + 1
-            }}</span>
+                scope.$index + 1
+              }}</span>
             <span v-else>{{ scope.row[column.prop] }}</span>
           </template>
         </el-table-column>
@@ -246,12 +252,12 @@ export default {
       langModeOptions: [
         {
           value: 'horizontal',
-          label: '语言横版',
+          label: '语言横版'
         },
         {
           value: 'vertical',
-          label: '语言竖版',
-        },
+          label: '语言竖版'
+        }
       ],
 
       // 导入表格文件数据
@@ -265,12 +271,16 @@ export default {
       // 表格列表数据
       module: [], // 指定模块
       shieldingModule: '', // 屏蔽模块 - 逗号分隔
+
+      // 多语言平台地址
+      platformUrl: '',
+
       listData: [], // 表格数据
       // 拷贝表格 执行中状态 - 避免重复触发
       copyEvent: false,
 
       // 根据英文生成关键字时需忽略的语气助词等单词
-      word: ['for', 'is', 'the', 'as', 'in', 'he', 'it', 'i'],
+      word: ['for', 'is', 'the', 'as', 'in', 'he', 'it', 'i']
     }
   },
   computed: {
@@ -303,7 +313,7 @@ export default {
                 translationContent: item[lang.prop], // 翻译内容
                 baseLang: this.baseLang, // 原始语言(基准语言)
                 baseValue: baseLangMap[item.key], // 原始内容(基准语言)
-                remark: '', // 备注
+                remark: '' // 备注
               }
             })
           )
@@ -325,17 +335,17 @@ export default {
             label: '序号',
             prop: 'index',
             width: 80,
-            align: 'center',
+            align: 'center'
           },
           {
             label: '项目',
             prop: 'project',
-            align: 'center',
+            align: 'center'
           },
           {
             label: '模块',
             prop: 'module',
-            align: 'center',
+            align: 'center'
           },
           /*{
             label: '类型',
@@ -345,8 +355,8 @@ export default {
           {
             label: '关键字',
             prop: 'key',
-            align: 'center',
-          },
+            align: 'center'
+          }
         ]
         if (this.config && Object.values(this.config).length) {
           data = data.concat(
@@ -358,7 +368,7 @@ export default {
                   lang: item.lang,
                   label: item.label,
                   prop: item.prop,
-                  type: 'lang',
+                  type: 'lang'
                 }
               })
           )
@@ -376,41 +386,41 @@ export default {
           {
             label: '页面编码',
             prop: 'module',
-            align: 'center',
+            align: 'center'
           },
           // 多语言关键字
           {
             label: '翻译key',
             prop: 'key',
-            align: 'center',
+            align: 'center'
           },
           // 语言关键字
           {
             label: '语言',
-            prop: 'locale',
+            prop: 'locale'
           },
           // 翻译内容
           {
             label: '翻译内容',
             prop: 'translationContent',
-            type: 'lang',
+            type: 'lang'
           },
           // 原始语言 - 基准语言
           {
             label: '原始语言',
-            prop: 'baseLang',
+            prop: 'baseLang'
           },
           // 原始内容 - 基准语言
           {
             label: '原始内容',
             prop: 'baseValue',
-            type: 'lang',
+            type: 'lang'
           },
           // 备注
           {
             label: '备注',
-            prop: 'remark',
-          },
+            prop: 'remark'
+          }
         ]
       }
 
@@ -458,7 +468,7 @@ export default {
         return 0
       })
       return data
-    },
+    }
   },
   methods: {
     /**
@@ -467,14 +477,15 @@ export default {
      * @return void
      */
     init({
-      projectName,
-      appCode,
-      baseLang,
-      langSelect,
-      module,
-      shieldingModule,
-      langConfig,
-    }) {
+           projectName,
+           appCode,
+           baseLang,
+           langSelect,
+           module,
+           shieldingModule,
+           langConfig,
+           platformUrl,
+         }) {
       // 更新项目名称和标题
       this.projectName = projectName || this.projectName
       this.appCode = appCode || this.appCode
@@ -496,6 +507,9 @@ export default {
       this.module = module || this.module || []
       this.shieldingModule = shieldingModule || this.shieldingModule
 
+      // 更新多语言管理平台链接
+      this.platformUrl = platformUrl || this.platformUrl
+
       // 清空配置，确保只有父组件传入的 config 会生效
       this.config = {}
 
@@ -515,7 +529,7 @@ export default {
             data: lang.data || {},
             lang: lang.lang,
             label: lang.label,
-            prop: `${lang.lang}`, // 自动生成prop
+            prop: `${lang.lang}` // 自动生成prop
           })
         })
         this.activeTabName = langConfig[0].lang
@@ -693,7 +707,7 @@ export default {
     // 下载文件
     downloadFile(content, name) {
       let blob = new Blob([content], {
-        type: 'text/plain;charset=utf-8',
+        type: 'text/plain;charset=utf-8'
       })
       // console.log(json, blob)
       saveAs(blob, name + '.js')
@@ -727,14 +741,14 @@ export default {
         date.getDate(),
         date.getHours(),
         date.getMinutes(),
-        date.getSeconds(),
+        date.getSeconds()
       ]
       times = times.map((t, i) => this.pad(t, i === 0 ? 4 : 2))
       name += times.join('')
 
       this.exportData({
         dom: 'stationTable', // 需要导出表格的dom id
-        name, // 导出文件名称
+        name // 导出文件名称
       })
     },
     exportData({ dom, name }) {
@@ -750,7 +764,7 @@ export default {
       let table_write = XLSX.write(table_book, {
         bookType: 'xlsx',
         bookSST: true,
-        type: 'array',
+        type: 'array'
       })
       try {
         saveAs(
@@ -931,9 +945,10 @@ export default {
           data.push(b)
         }
       }
-    },
+    }
   },
-  created() {},
+  created() {
+  },
   mounted() {
     /*// TODO 调试
     let data = {
@@ -951,7 +966,7 @@ export default {
     }
     data = utils.convertToArrays(data)
     console.log('转换后的值', data);*/
-  },
+  }
 }
 </script>
 

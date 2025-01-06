@@ -141,15 +141,16 @@ export default {
 
 | 属性名      | 类型     | 默认值 | 描述                                                                       |
 | ----------- | -------- | ------ |--------------------------------------------------------------------------|
-| `projectName`   | String    | `''`     | 当前项目的名称，用于区分不同项目的多语言配置, 导出表格时, 会使用该配置。                                   |
+| `projectName`   | String    | `''`   | 当前项目的名称，用于区分不同项目的多语言配置, 导出表格时, 会使用该配置。                                   |
 | `baseLang`      | String    | `'zh-CN'`| 基准语言，用于转换 JSON 到表格时的参考语言，建议选择包含完整数据的语言。                                  |
-| `langSelect`    | Array     | `[]`     | 默认选中的语言列表，按需选择需要显示的语言，例如 `['zh-CN', 'en-US']`。                           |
-| `module`        | Array     | `[]`     | 当前默认的模块，用于选择要显示的语言模块。                                                    |
-| `shieldingModule`| String   | `''`     | 屏蔽的模块，支持逗号分隔的字符串，用于隐藏不需要展示的模块或语言, 比如element-ui的el模块。                     |
-| `langConfig`    | Array     | `[]`     | 语言配置数组，包含语言数据、语言关键字及其标签，例如 `{ data: zhCn, lang: 'zh-CN', label: '中文' }`。 |
-| `langConfig.lang`| String   | `''`     | 语言的关键字，用于指定该配置项对应的语言标识符。                                                 |
-| `langConfig.label`| String  | `''`     | 显示的语言名称。                                                                 |
-| `langConfig.data`| Object   | `{}`     | 当前语言对应的 JSON 数据，包含该语言的键值对翻译内容, 需要注意按模块划分。                                |
+| `langSelect`    | Array     | `[]`   | 默认选中的语言列表，按需选择需要显示的语言，例如 `['zh-CN', 'en-US']`。                           |
+| `module`        | Array     | `[]`   | 当前默认的模块，用于选择要显示的语言模块。                                                    |
+| `shieldingModule`| String   | `''`   | 屏蔽的模块，支持逗号分隔的字符串，用于隐藏不需要展示的模块或语言, 比如element-ui的el模块。                     |
+| `langConfig`    | Array     | `[]`   | 语言配置数组，包含语言数据、语言关键字及其标签，例如 `{ data: zhCn, lang: 'zh-CN', label: '中文' }`。 |
+| `langConfig.lang`| String   | `''`   | 语言的关键字，用于指定该配置项对应的语言标识符。                                                 |
+| `langConfig.label`| String  | `''`   | 显示的语言名称。                                                                 |
+| `langConfig.data`| Object   | `{}`   | 当前语言对应的 JSON 数据，包含该语言的键值对翻译内容, 需要注意按模块划分。                                |
+| `platformUrl`| String   | `''`     | 多语言远程管理平台地址, 导入竖版模版的平台.                                                  |
 
 ## 开发与贡献
 
