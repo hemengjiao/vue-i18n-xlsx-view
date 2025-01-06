@@ -1,181 +1,233 @@
-<div class="xlsxToJson">
-<div class="header-title">
-  <span>多语言配置xlsx与json转化页</span>
-</div>
-<!--通用模块-->
-<div class="module-box">
-  <div class="importRelated" style="margin-bottom: 0">
-    <span>基准语言：</span>
-    <div class="selectFile">
-      <el-radio-group v-model="baseLang" size="small">
-        <el-radio-button v-for="item in langColumns" :key="item.label" :label="item.lang">
-          {{ item.label }}
-        </el-radio-button>
-      </el-radio-group>
+<!--
+ * @Description: 多语言配置xlsx与json转化页
+ * @Author: hemengjiao
+ * @Date: 2024-11-29 18:01
+ * @LastEditors: hemengjiao
+ * @LastEditTime: 2024-11-29 18:01
+-->
+<template>
+  <div class="xlsxToJson">
+    <div class="header-title">
+      <span>多语言配置xlsx与json转化页</span>
     </div>
-    <div class="tip">PS: 基准语言会在语言处理时, 做为转换配置标准, 建议使用配置最全面的语言</div>
-  </div>
-  <div class="importRelated" style="margin-bottom: 0">
-    <span>当前处理语言：</span>
-    <div class="selectFile">
-      <el-checkbox-group v-model="langSelect" size="small" style="line-height: 32px">
-        <el-checkbox
-            :disabled="[baseLang].includes(item.lang)"
-            v-for="item in Object.values(config)"
-            :key="item.lang"
-            :label="item.lang"
-        >
-          {{ item.label }}
-        </el-checkbox>
-      </el-checkbox-group>
-    </div>
-  </div>
-</div>
-<!--导入模块-->
-<div class="module-box">
-  <h2>多语言 XLSX 转 JSON</h2>
-  <div class="leftAndRightLayout">
-    <div class="left">
-      <div class="importRelated">
-        <span>选择xlsx文件：</span>
+    <!--通用模块-->
+    <div class="module-box">
+      <div class="importRelated" style="margin-bottom: 0">
+        <span>基准语言：</span>
         <div class="selectFile">
-          <el-upload
-              action=""
-              accept=".xlsx, .xls"
-              :auto-upload="false"
-              :show-file-list="true"
-              :on-change="handle"
-              :on-remove="removeHandle"
-          >
-            <el-button type="primary" size="mini">选择文件</el-button>
-          </el-upload>
+          <el-radio-group v-model="baseLang" size="mini">
+            <el-radio-button
+              v-for="item in langColumns"
+              :key="item.label"
+              :label="item.lang"
+            >
+              {{ item.label }}
+            </el-radio-button>
+          </el-radio-group>
         </div>
         <div class="tip">
-          PS: xlsx转json, 导入表格请使用[语言横版]模板,
-          <b class="red">暂不支持[语言竖版]模板</b>
+          PS: 基准语言会在语言处理时, 做为转换配置标准, 建议使用配置最全面的语言
         </div>
       </div>
-      <div class="importRelated">
-        <div>下载JSON：</div>
+      <div class="importRelated" style="margin-bottom: 0">
+        <span>当前处理语言：</span>
         <div class="selectFile">
-          <!--下载语言-->
-          <span>选择语言:</span>
-          <el-select
-              multiple
-              collapse-tags
-              clearable
-              filterable
-              size="small"
-              v-model="downloadLang"
-              style="width: 200px; margin-right: 15px"
-              placeholder="默认全部语言"
+          <el-checkbox-group
+            v-model="langSelect"
+            size="mini"
+            style="line-height: 32px"
           >
-            <el-option
-                v-for="item in langColumns"
-                :key="item.lang"
-                :label="item.label"
-                :value="item.lang"
-            ></el-option>
-          </el-select>
-
-          <!--下载按钮-->
-          <el-button type="primary" size="mini" @click="downloadFileHandle">
-            下载js文件
-          </el-button>
+            <el-checkbox
+              :disabled="[baseLang].includes(item.lang)"
+              v-for="item in Object.values(config)"
+              :key="item.lang"
+              :label="item.lang"
+            >
+              {{ item.label }}
+            </el-checkbox>
+          </el-checkbox-group>
         </div>
       </div>
     </div>
-    <div class="right">
-      <el-tabs v-model="activeTabName" type="card" size="mini">
-        <el-tab-pane :label="lang.label" :name="lang.lang" v-for="lang in langColumns" :key="lang.lang">
-          <el-input
-              type="textarea"
-              v-model="xlsxDataCont[lang.key]"
-              placeholder="JSON预览, 请先选择有效翻译表格文件"
-          ></el-input>
-        </el-tab-pane>
-      </el-tabs>
-    </div>
-  </div>
-</div>
+    <!--导入模块-->
+    <div class="module-box">
+      <h2>多语言 XLSX 转 JSON</h2>
+      <div class="leftAndRightLayout">
+        <div class="left">
+          <div class="importRelated">
+            <span>选择xlsx文件：</span>
+            <div class="selectFile">
+              <el-upload
+                action=""
+                accept=".xlsx, .xls"
+                :auto-upload="false"
+                :show-file-list="true"
+                :on-change="handle"
+                :on-remove="removeHandle"
+              >
+                <el-button type="primary" size="mini">选择文件</el-button>
+              </el-upload>
+            </div>
+            <div class="tip">
+              PS: xlsx转json, 导入表格请使用[语言横版]模板,
+              <b class="red">暂不支持[语言竖版]模板</b>
+            </div>
+          </div>
+          <div class="importRelated">
+            <div>下载JSON：</div>
+            <div class="selectFile">
+              <!--下载语言-->
+              <span>选择语言:</span>
+              <el-select
+                multiple
+                collapse-tags
+                clearable
+                filterable
+                size="mini"
+                v-model="downloadLang"
+                style="width: 200px; margin-right: 15px"
+                placeholder="默认全部语言"
+              >
+                <el-option
+                  v-for="item in langColumns"
+                  :key="item.lang"
+                  :label="item.label"
+                  :value="item.lang"
+                ></el-option>
+              </el-select>
 
-<!--导出模块-->
-<div class="module-box">
-  <h2>多语言 JSON 转 XLSX</h2>
-  <!--语言模板-->
-  <div class="importRelated">
-    <span>使用语言模式：</span>
-    <div class="selectFile">
-      <el-radio-group v-model="langMode" size="small">
-        <el-radio-button v-for="item in langModeOptions" :key="item.value" :label="item.value">
-          {{ item.label }}
-        </el-radio-button>
-      </el-radio-group>
+              <!--下载按钮-->
+              <el-button type="primary" size="mini" @click="downloadFileHandle">
+                下载js文件
+              </el-button>
+            </div>
+          </div>
+        </div>
+        <div class="right">
+          <el-tabs v-model="activeTabName" type="card" size="mini">
+            <el-tab-pane
+              :label="lang.label"
+              :name="lang.lang"
+              v-for="lang in langColumns"
+              :key="lang.lang"
+            >
+              <el-input
+                type="textarea"
+                v-model="xlsxDataCont[lang.key]"
+                placeholder="JSON预览, 请先选择有效翻译表格文件"
+              ></el-input>
+            </el-tab-pane>
+          </el-tabs>
+        </div>
+      </div>
     </div>
-    <div class="tip">
-      PS: [语言横版]便于产品/运营翻译或开发转换为JSON; [语言竖版]便于导入
-      <!--<a style="color: #107ce8;" href="https://linguist.orangeconnex.com/keyManagement" target="_blank">
-        多语言管理平台
-      </a>-->
+
+    <!--导出模块-->
+    <div class="module-box">
+      <h2>多语言 JSON 转 XLSX</h2>
+      <!--语言模板-->
+      <div class="importRelated">
+        <span>使用语言模式：</span>
+        <div class="selectFile">
+          <el-radio-group v-model="langMode" size="mini">
+            <el-radio-button
+              size="mini"
+              v-for="item in langModeOptions"
+              :key="item.value"
+              :label="item.value"
+            >
+              {{ item.label }}
+            </el-radio-button>
+          </el-radio-group>
+        </div>
+        <div class="tip">
+          PS: [语言横版]便于产品/运营翻译或开发转换为JSON; [语言竖版]便于导入
+          <!--<a
+            style="color: #107ce8"
+            href="https://linguist.orangeconnex.com/keyManagement"
+            target="_blank"
+          >
+            多语言管理平台
+          </a>-->
+        </div>
+      </div>
+      <div class="downloadForm">
+        <span>选择模块：</span>
+        <el-select
+          multiple
+          collapse-tags
+          clearable
+          filterable
+          v-model="module"
+          size="mini"
+          style="width: 300px"
+          placeholder="默认全部模块"
+        >
+          <el-option
+            v-for="item in i18nOptions"
+            :key="item"
+            :label="item"
+            :value="item"
+          ></el-option>
+        </el-select>
+        <span></span>
+        <el-button type="primary" size="mini" @click="getLanguageConfig"
+          >查询列表</el-button
+        >
+        <el-button type="primary" size="mini" @click="exportTable"
+          >导出表格</el-button
+        >
+        <el-button type="primary" size="mini" @click="copyTable"
+          >复制表格</el-button
+        >
+        <span>屏蔽模块：</span>
+        <el-input
+          v-model="shieldingModule"
+          size="mini"
+          style="width: 180px"
+          placeholder="逗号分隔"
+        ></el-input>
+        <div class="tip">
+          PS:
+          查询出列表后再导出，导出数据/复制表格数据是以当前展示的列表为基础生成的表格文件或数据
+        </div>
+      </div>
+      <el-table
+        id="stationTable"
+        :data="tableData"
+        border
+        size="mini"
+        style="width: 100%"
+        header-row-class-name="isc-table-header"
+        cell-class-name="isc-table-cell"
+      >
+        <el-table-column
+          sortable
+          v-for="column in tableColumns"
+          :key="`tableColumns_${column.prop}`"
+          :label="column.label"
+          :prop="column.prop"
+          :width="column.width"
+          :align="column.align"
+        >
+          <template slot-scope="scope">
+            <span v-if="column.prop === 'project'">{{ projectName }}</span>
+            <span v-else-if="column.prop === 'index'">{{
+              scope.$index + 1
+            }}</span>
+            <span v-else>{{ scope.row[column.prop] }}</span>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
   </div>
-  <div class="downloadForm">
-    <span>选择模块：</span>
-    <el-select
-        multiple
-        collapse-tags
-        clearable
-        filterable
-        v-model="module"
-        size="small"
-        style="width: 300px;"
-        placeholder="默认全部模块"
-    >
-      <el-option v-for="item in i18nOptions" :key="item" :label="item" :value="item"></el-option>
-    </el-select>
-    <span></span>
-    <el-button type="primary" size="mini" @click="getLanguageConfig">查询列表</el-button>
-    <el-button type="primary" size="mini" @click="exportTable">导出表格</el-button>
-    <el-button type="primary" size="mini" @click="copyTable">复制表格</el-button>
-    <span>屏蔽模块：</span>
-    <el-input v-model="shieldingModule" size="small" style="width: 180px;" placeholder="逗号分隔"></el-input>
-    <div class="tip">
-      PS: 查询出列表后再导出，导出数据/复制表格数据是以当前展示的列表为基础生成的表格文件或数据
-    </div>
-  </div>
-  <el-table
-      id="stationTable"
-      :data="tableData"
-      border
-      size="mini"
-      style="width: 100%"
-      header-row-class-name="isc-table-header"
-      cell-class-name="isc-table-cell"
-  >
-    <el-table-column
-        sortable
-        v-for="column in tableColumns"
-        :key="`tableColumns_${column.prop}`"
-        :label="column.label"
-        :prop="column.prop"
-        :width="column.width"
-        :align="column.align"
-    >
-      <template slot-scope="scope">
-        <span v-if="column.prop === 'project'">{{ projectName }}</span>
-        <span v-else-if="column.prop === 'index'">{{ scope.$index + 1 }}</span>
-        <span v-else>{{ scope.row[column.prop] }}</span>
-      </template>
-    </el-table-column>
-  </el-table>
-</div>
-</div>
+</template>
 
 <script>
 // 导入用插件
 import * as XLSX from 'xlsx/xlsx.mjs'
 import { saveAs } from 'file-saver'
-import utils from '../utils/utils.js'
+import utils from '../utility/utils.js'
 
 export default {
   name: 'xlsxToJson',
@@ -194,12 +246,12 @@ export default {
       langModeOptions: [
         {
           value: 'horizontal',
-          label: '语言横版'
+          label: '语言横版',
         },
         {
           value: 'vertical',
-          label: '语言竖版'
-        }
+          label: '语言竖版',
+        },
       ],
 
       // 导入表格文件数据
@@ -218,7 +270,7 @@ export default {
       copyEvent: false,
 
       // 根据英文生成关键字时需忽略的语气助词等单词
-      word: ['for', 'is', 'the', 'as', 'in', 'he', 'it', 'i']
+      word: ['for', 'is', 'the', 'as', 'in', 'he', 'it', 'i'],
     }
   },
   computed: {
@@ -237,23 +289,23 @@ export default {
 
         // 原始语言内容
         let baseLangMap = {}
-        listData.forEach(item => {
+        listData.forEach((item) => {
           baseLangMap[item.key] = item[baseLang]
         })
 
-        langColumns.forEach(lang => {
+        langColumns.forEach((lang) => {
           data = data.concat(
-              listData.map(item => {
-                return {
-                  ...item,
-                  appCode: this.appCode, // 应用编码
-                  locale: lang.prop, // 语言类型
-                  translationContent: item[lang.prop], // 翻译内容
-                  baseLang: this.baseLang, // 原始语言(基准语言)
-                  baseValue: baseLangMap[item.key], // 原始内容(基准语言)
-                  remark: '' // 备注
-                }
-              })
+            listData.map((item) => {
+              return {
+                ...item,
+                appCode: this.appCode, // 应用编码
+                locale: lang.prop, // 语言类型
+                translationContent: item[lang.prop], // 翻译内容
+                baseLang: this.baseLang, // 原始语言(基准语言)
+                baseValue: baseLangMap[item.key], // 原始内容(基准语言)
+                remark: '', // 备注
+              }
+            })
           )
         })
       }
@@ -273,17 +325,17 @@ export default {
             label: '序号',
             prop: 'index',
             width: 80,
-            align: 'center'
+            align: 'center',
           },
           {
             label: '项目',
             prop: 'project',
-            align: 'center'
+            align: 'center',
           },
           {
             label: '模块',
             prop: 'module',
-            align: 'center'
+            align: 'center',
           },
           /*{
             label: '类型',
@@ -293,22 +345,22 @@ export default {
           {
             label: '关键字',
             prop: 'key',
-            align: 'center'
-          }
+            align: 'center',
+          },
         ]
         if (this.config && Object.values(this.config).length) {
           data = data.concat(
-              Object.values(this.config)
-                  .filter(item => this.langSelect.includes(item.lang))
-                  .map(item => {
-                    return {
-                      key: item.key,
-                      lang: item.lang,
-                      label: item.label,
-                      prop: item.prop,
-                      type: 'lang'
-                    }
-                  })
+            Object.values(this.config)
+              .filter((item) => this.langSelect.includes(item.lang))
+              .map((item) => {
+                return {
+                  key: item.key,
+                  lang: item.lang,
+                  label: item.label,
+                  prop: item.prop,
+                  type: 'lang',
+                }
+              })
           )
         }
       } else {
@@ -324,41 +376,41 @@ export default {
           {
             label: '页面编码',
             prop: 'module',
-            align: 'center'
+            align: 'center',
           },
           // 多语言关键字
           {
             label: '翻译key',
             prop: 'key',
-            align: 'center'
+            align: 'center',
           },
           // 语言关键字
           {
             label: '语言',
-            prop: 'locale'
+            prop: 'locale',
           },
           // 翻译内容
           {
             label: '翻译内容',
             prop: 'translationContent',
-            type: 'lang'
+            type: 'lang',
           },
           // 原始语言 - 基准语言
           {
             label: '原始语言',
-            prop: 'baseLang'
+            prop: 'baseLang',
           },
           // 原始内容 - 基准语言
           {
             label: '原始内容',
             prop: 'baseValue',
-            type: 'lang'
+            type: 'lang',
           },
           // 备注
           {
             label: '备注',
-            prop: 'remark'
-          }
+            prop: 'remark',
+          },
         ]
       }
 
@@ -368,7 +420,9 @@ export default {
     langColumns() {
       let list = []
       if (this.config) {
-        list = Object.values(this.config).filter(item => this.langSelect.includes(item.lang))
+        list = Object.values(this.config).filter((item) =>
+          this.langSelect.includes(item.lang)
+        )
       }
       return list
     },
@@ -389,7 +443,7 @@ export default {
       let data = Object.keys(langData)
       // 屏蔽模块
       if (this.shieldingModules && this.shieldingModules.length) {
-        data = data.filter(item => !this.shieldingModules.includes(item))
+        data = data.filter((item) => !this.shieldingModules.includes(item))
       }
       // 根据是否选中排序
       data.sort((a, b) => {
@@ -404,7 +458,7 @@ export default {
         return 0
       })
       return data
-    }
+    },
   },
   methods: {
     /**
@@ -412,7 +466,15 @@ export default {
      * @param langConfig: 语言配置, langConfig.lang 语言关键字请注意和多语言管理平台配置的语言关键字匹配
      * @return void
      */
-    init({ projectName, appCode, baseLang, langSelect, module, shieldingModule, langConfig }) {
+    init({
+      projectName,
+      appCode,
+      baseLang,
+      langSelect,
+      module,
+      shieldingModule,
+      langConfig,
+    }) {
       // 更新项目名称和标题
       this.projectName = projectName || this.projectName
       this.appCode = appCode || this.appCode
@@ -440,18 +502,20 @@ export default {
       // 遍历并根据传入的配置更新语言信息
       if (langConfig && langConfig.length) {
         // 语言配置必须有基准语言, 否则返回报错
-        if (!langConfig.some(lang => lang.lang === this.baseLang)) {
-          throw new Error('初始化 语言配置 langConfig 必须包含基准语言:' + this.baseLang)
+        if (!langConfig.some((lang) => lang.lang === this.baseLang)) {
+          throw new Error(
+            '初始化 语言配置 langConfig 必须包含基准语言:' + this.baseLang
+          )
         }
 
         // 语言配置格式化
-        langConfig.forEach(lang => {
+        langConfig.forEach((lang) => {
           this.$set(this.config, lang.lang, {
             key: lang.lang,
             data: lang.data || {},
             lang: lang.lang,
             label: lang.label,
-            prop: `${lang.lang}` // 自动生成prop
+            prop: `${lang.lang}`, // 自动生成prop
           })
         })
         this.activeTabName = langConfig[0].lang
@@ -469,10 +533,10 @@ export default {
     },
     //文件读取
     readFile(file) {
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         let reader = new FileReader()
         reader.readAsBinaryString(file) //以二进制的方式读取
-        reader.onload = ev => {
+        reader.onload = (ev) => {
           resolve(ev.target.result)
         }
       })
@@ -517,7 +581,7 @@ export default {
 
       let configMap = {} // 表格配置
       let xlsxData = {} // 语言数据
-      this.tableColumns.forEach(item => {
+      this.tableColumns.forEach((item) => {
         configMap[item.prop] = item
         if (item.type === 'lang') {
           xlsxData[item.key] = {}
@@ -527,7 +591,7 @@ export default {
       let path = ''
       result.forEach((item, index) => {
         let langData = {}
-        this.langColumns.forEach(lang => {
+        this.langColumns.forEach((lang) => {
           langData[lang.key] = item[lang.label]
         })
 
@@ -550,12 +614,13 @@ export default {
           })
         }*/
         key = path != null ? path + '.' + key : key
-        console.log('当前路径', key);
+        console.log('当前路径', key)
 
-        this.langColumns.forEach(lang => {
+        this.langColumns.forEach((lang) => {
           try {
             if (xlsxData[lang.key] == null) xlsxData[lang.key] = {}
-            if (path != null && xlsxData[lang.key][path] == null) xlsxData[lang.key][path] = {}
+            if (path != null && xlsxData[lang.key][path] == null)
+              xlsxData[lang.key][path] = {}
             // key路径转换为obj对象
             utils.updateDict(xlsxData[lang.key], key, langData[lang.key])
           } catch (e) {
@@ -572,17 +637,17 @@ export default {
         })*/
       })
 
-      console.log('转换前xlsxData', xlsxData);
+      console.log('转换前xlsxData', xlsxData)
       /*this.langColumns.forEach(lang => {
         xlsxData[lang.lang] = linguist.transformComplexData(xlsxData[lang.lang])
       })*/
 
       // 数字索引的数据需要转换为数组格式
       this.xlsxData = utils.convertToArrays(xlsxData)
-      console.log('转换后xlsxData', this.xlsxData);
+      console.log('转换后xlsxData', this.xlsxData)
 
       let xlsxDataCont = {}
-      Object.keys(xlsxData).forEach(k => {
+      Object.keys(xlsxData).forEach((k) => {
         xlsxDataCont[k] = 'export default ' + JSON.stringify(xlsxData[k])
       })
       this.xlsxDataCont = xlsxDataCont
@@ -591,15 +656,17 @@ export default {
     toCamelCase(str) {
       if (!str) return ''
       let name = str
-          .split(' ')
-          .filter(s => s && !this.word.includes(s.toLowerCase()))
-          .join(' ')
+        .split(' ')
+        .filter((s) => s && !this.word.includes(s.toLowerCase()))
+        .join(' ')
       if (!name) return ''
 
       const s = name
-          .match(/[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g)
-          .map(x => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
-          .join('')
+        .match(
+          /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g
+        )
+        .map((x) => x.slice(0, 1).toUpperCase() + x.slice(1).toLowerCase())
+        .join('')
       return s.slice(0, 1).toLowerCase() + s.slice(1)
     },
     // 下载指定语言文件
@@ -613,7 +680,7 @@ export default {
       let langData = {}
 
       if (this.downloadLang && this.downloadLang.length) {
-        this.downloadLang.forEach(lang => {
+        this.downloadLang.forEach((lang) => {
           langData[lang] = this.copyJSON(this.xlsxData[lang])
         })
       } else {
@@ -626,7 +693,7 @@ export default {
     // 下载文件
     downloadFile(content, name) {
       let blob = new Blob([content], {
-        type: 'text/plain;charset=utf-8'
+        type: 'text/plain;charset=utf-8',
       })
       // console.log(json, blob)
       saveAs(blob, name + '.js')
@@ -654,13 +721,20 @@ export default {
       // 需要拼接当前为横版还是竖版 langMode: 'horizontal',
       name += this.langMode === 'horizontal' ? '横版' : '竖版'
       name += '多语言_'
-      let times = [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()]
-      times = times.map((t, i) => this.pad(t, i===0 ? 4 : 2))
+      let times = [
+        date.getFullYear(),
+        date.getMonth() + 1,
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
+      ]
+      times = times.map((t, i) => this.pad(t, i === 0 ? 4 : 2))
       name += times.join('')
 
       this.exportData({
         dom: 'stationTable', // 需要导出表格的dom id
-        name // 导出文件名称
+        name, // 导出文件名称
       })
     },
     exportData({ dom, name }) {
@@ -676,10 +750,13 @@ export default {
       let table_write = XLSX.write(table_book, {
         bookType: 'xlsx',
         bookSST: true,
-        type: 'array'
+        type: 'array',
       })
       try {
-        saveAs(new Blob([table_write], { type: 'application/octet-stream' }), excelName)
+        saveAs(
+          new Blob([table_write], { type: 'application/octet-stream' }),
+          excelName
+        )
       } catch (e) {
         if (typeof console !== 'undefined') console.log(e, table_write)
       }
@@ -705,31 +782,31 @@ export default {
       if (this.copyEvent) {
         // 拼接数据 '类型',
         const first = this.tableColumns
-            .map(item => {
-              return item.label
-            })
-            .join('\t')
+          .map((item) => {
+            return item.label
+          })
+          .join('\t')
 
         const sec = this.tableData
-            .map((item, i) => {
-              let data = ''
-              this.tableColumns.forEach((col, index) => {
-                if (index) data += '\t'
-                if (col.type === 'lang') {
-                  data += `${this.formattedText(item[col.prop])}`
-                } else if (col.prop === 'index') {
-                  data += `${i + 1}`
-                } else if (col.prop === 'appCode') {
-                  data += `${this.appCode}`
-                } else if (col.prop === 'project') {
-                  data += `${this.projectName}`
-                } else {
-                  data += `${item[col.prop]}`
-                }
-              })
-              return data
+          .map((item, i) => {
+            let data = ''
+            this.tableColumns.forEach((col, index) => {
+              if (index) data += '\t'
+              if (col.type === 'lang') {
+                data += `${this.formattedText(item[col.prop])}`
+              } else if (col.prop === 'index') {
+                data += `${i + 1}`
+              } else if (col.prop === 'appCode') {
+                data += `${this.appCode}`
+              } else if (col.prop === 'project') {
+                data += `${this.projectName}`
+              } else {
+                data += `${item[col.prop]}`
+              }
             })
-            .join('\n')
+            return data
+          })
+          .join('\n')
 
         const selection = `${first}\n${sec}`
         this.copyText(selection.toString())
@@ -766,11 +843,12 @@ export default {
     getLanguageConfig() {
       // console.log(zhCn)
       let listData = []
-      let moduleList = this.module && this.module.length > 0 ? this.module : this.i18nOptions
-      moduleList.forEach(module => {
+      let moduleList =
+        this.module && this.module.length > 0 ? this.module : this.i18nOptions
+      moduleList.forEach((module) => {
         // 获取语言对应模块数据配置
         let langData = {}
-        this.langColumns.forEach(lang => {
+        this.langColumns.forEach((lang) => {
           langData[lang.key] = lang.data[module] || ''
         })
 
@@ -778,7 +856,7 @@ export default {
           let data = []
           // console.log(Object.keys(cn))
           this.formatLanguage(langData, {}, data)
-          data = data.map(v => {
+          data = data.map((v) => {
             v.module = module
             if (v.key == null || v.key === '') v.key = module
             // v.key = v.key ? module + '.' + v.key : module
@@ -800,13 +878,15 @@ export default {
       if (baseLang) {
         // console.log('当前内容', langData);
         if (typeof baseLang === 'object') {
-          Object.keys(baseLang).forEach(type => {
+          Object.keys(baseLang).forEach((type) => {
             let baseText = baseLang ? baseLang[type] : '' // 用于关键字获取
 
             // 当前路径下语言获取
             let langText = {}
-            this.langColumns.forEach(lang => {
-              langText[lang.key] = langData[lang.key] ? langData[lang.key][type] : ''
+            this.langColumns.forEach((lang) => {
+              langText[lang.key] = langData[lang.key]
+                ? langData[lang.key][type]
+                : ''
             })
 
             let b = { ...a }
@@ -820,7 +900,7 @@ export default {
             } else {
               b.type = a.type
 
-              this.langColumns.forEach(lang => {
+              this.langColumns.forEach((lang) => {
                 if (langText[lang.key] != null) {
                   b[lang.prop] = langText[lang.key]
                 } else {
@@ -835,7 +915,7 @@ export default {
         } else {
           // 当前路径下语言获取
           let langText = {}
-          this.langColumns.forEach(lang => {
+          this.langColumns.forEach((lang) => {
             langText[lang.key] = langData[lang.key]
           })
 
@@ -843,7 +923,7 @@ export default {
 
           b.type = a.type
 
-          this.langColumns.forEach(lang => {
+          this.langColumns.forEach((lang) => {
             b[lang.prop] = langText[lang.key] || ''
           })
 
@@ -851,11 +931,10 @@ export default {
           data.push(b)
         }
       }
-    }
+    },
   },
   created() {},
   mounted() {
-
     /*// TODO 调试
     let data = {
       "bindFailed": {
@@ -872,120 +951,10 @@ export default {
     }
     data = utils.convertToArrays(data)
     console.log('转换后的值', data);*/
-  }
+  },
 }
 </script>
 
-<style lang="scss" scoped>
-.xlsxToJson {
-  padding: 20px 40px;
-
-  .header-title {
-    font-size: 20px;
-    font-weight: 700;
-  }
-  .module-box {
-    padding-left: 20px;
-    margin-bottom: 20px;
-  }
-
-  h2 {
-    font-size: 18px;
-    font-weight: 700;
-  }
-
-  .leftAndRightLayout {
-    display: flex;
-    justify-content: space-between;
-
-    .right {
-      min-width: 800px;
-
-      ::v-deep {
-        .el-textarea {
-          textarea {
-            min-height: 200px !important;
-            font-size: 14px;
-          }
-        }
-
-        .el-tabs {
-          margin-top: 15px;
-          height: 100%;
-
-          &__header {
-            margin-bottom: 0;
-          }
-
-          .el-tabs__item {
-            height: 28px;
-            line-height: 28px;
-            font-size: 14px;
-            font-weight: 400;
-          }
-
-          .el-tabs__item.is-active {
-            background: rgba(236, 105, 36, 0.15);
-            border-radius: 4px 4px 0 0;
-            color: rgba(0, 0, 0, 0.85);
-          }
-        }
-      }
-    }
-  }
-
-  .tip {
-    color: #999999;
-    font-size: 14px;
-  }
-
-  .red {
-    color: red !important;
-  }
-
-  .importRelated {
-    margin-bottom: 20px;
-    margin-top: 20px;
-    font-size: 14px;
-
-    span {
-      display: inline-block;
-      vertical-align: top;
-      line-height: 28px;
-    }
-
-    .selectFile {
-      display: inline-block;
-    }
-
-    .downloadFile {
-      margin-top: 20px;
-    }
-  }
-
-  .downloadForm {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-
-  ::v-deep {
-    .el-table {
-      border-bottom: 1px solid #dddddd;
-
-      th,
-      td {
-        height: 20px;
-        padding: 0;
-      }
-
-      .cell {
-        line-height: 20px;
-      }
-
-      th {
-        height: 28px;
-      }
-    }
-  }
-}
+<style>
+@import '../css/vue-i18n-xlsx-view.css';
 </style>

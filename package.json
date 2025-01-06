@@ -1,60 +1,121 @@
 {
   "name": "vue-i18n-xlsx-view",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "专为 Vue 2 框架设计的多语言 JSON 与表格互转的可视化组件，旨在简化和优化多语言数据的管理和编辑。",
-  "main": "dist/index.js",
-  "module": "",
-  "author": "何梦蛟",
+  "author": "Mengjiao He <Mengjiao.He@itiaoling.com>",
+  "homepage": "https://github.com/hemengjiao/vue-i18n-xlsx-view",
+  "private": false,
+  "main": "dist/vue-i18n-xlsx-view.js",
   "license": "MIT",
-  "type": "module",
-  "keywords": [
-    "xlsx",
-    "json",
-    "vue",
-    "tool",
-    "converter"
-  ],
+  "prepare": "npm run build",
+  "scripts": {
+    "serve": "webpack-dev-server --config build/webpack.dev.conf.js --hot --progress",
+    "build": "cross-env NODE_ENV=production webpack --config build/webpack.prod.conf.js --progress",
+    "test": "jest",
+    "eslint": "eslint '{**/*,*}.{js,ts,jsx,tsx,vue}'",
+    "eslint:fix": "npm run eslint -- --fix",
+    "semantic-release": "semantic-release",
+    "commit": "git-cz"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hemengjiao/vue-i18n-xlsx-view.git"
-  },
-  "bugs": {
-    "url": "https://github.com/hemengjiao/vue-i18n-xlsx-view/issues"
-  },
-  "homepage": "https://github.com/hemengjiao/vue-i18n-xlsx-viewn#readme",
-  "scripts": {
-    "build": "webpack"
-  },
-  "dependencies": {
-    "element-ui": "^2.15.14",
-    "file-saver": "1.3.8",
-    "xlsx": "^0.18.5"
+    "url": "https://github.com/hemengjiao/vue-i18n-xlsx-view.git"
   },
   "peerDependencies": {
-    "vue": "^2.6.0"
+    "vue": "2.x"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/preset-env": "^7.0.0",
-    "babel-loader": "^8.0.0",
-    "css-loader": "^6.11.0",
-    "file-loader": "^6.0.0",
-    "sass": "^1.83.0",
-    "sass-loader": "^12.6.0",
-    "style-loader": "^3.3.0",
-    "vue-loader": "^15.11.1",
-    "vue-style-loader": "^4.0.0",
-    "vue-template-compiler": "2.6.12",
-    "webpack": "^5.0.0",
-    "webpack-cli": "^4.0.0"
+    "@babel/core": "^7.4.0",
+    "@babel/eslint-parser": "^7.14.7",
+    "@babel/plugin-transform-runtime": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "@babel/runtime": "^7.4.2",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.0.4",
+    "@vue/test-utils": "^1.2.2",
+    "autoprefixer": "^10.3.7",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.3",
+    "babel-loader": "^8.0.5",
+    "bundlewatch": "^0.2.5",
+    "commitizen": "^4.0.3",
+    "coveralls": "^3.1.1",
+    "cross-env": "^5.2.0",
+    "css-loader": "^6.4.0",
+    "cssnano": "^5.0.8",
+    "cz-conventional-changelog": "3.1.0",
+    "element-ui": "2.13",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-vue": "^7.20.0",
+    "file-saver": "1.3.8",
+    "html-loader": "^3.1.0",
+    "html-webpack-plugin": "^5.5.0",
+    "jest": "^24.1.0",
+    "jest-serializer-vue": "^2.0.2",
+    "jest-transform-stub": "^2.0.0",
+    "mini-css-extract-plugin": "^2.5.3",
+    "postcss": "^8.3.11",
+    "postcss-import": "^14.0.2",
+    "postcss-loader": "^6.2.1",
+    "postcss-nested": "^5.0.6",
+    "prettier": "2.2.1",
+    "semantic-release": "^17.0.4",
+    "terser-webpack-plugin": "^5.3.1",
+    "url-loader": "^4.1.1",
+    "vue": "^2.6.10",
+    "vue-html-loader": "^1.2.4",
+    "vue-jest": "^3.0.4",
+    "vue-loader": "^15.9.8",
+    "vue-server-renderer": "^2.6.10",
+    "vue-style-loader": "^4.1.3",
+    "vue-template-compiler": "^2.6.10",
+    "webpack": "^5.69.1",
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-server": "^4.7.4",
+    "webpack-merge": "^5.8.0",
+    "xlsx": "^0.18.5"
   },
-  "engines": {
-    "node": ">=16.0.0"
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "jsx",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.vue$": "vue-jest",
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "jest-transform-stub",
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    "snapshotSerializers": [
+      "jest-serializer-vue"
+    ]
   },
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE",
-    "package.json"
-  ]
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "bundlewatch": {
+    "files": [
+      {
+        "path": "./dist/vue-i18n-xlsx-view.js",
+        "compression": "none",
+        "maxSize": "21 KB"
+      },
+      {
+        "path": "./dist/vue-i18n-xlsx-view.css",
+        "compression": "none",
+        "maxSize": "8 KB"
+      }
+    ]
+  },
+  "dependencies": {
+    "vue-i18n-xlsx-view": "^1.1.0"
+  }
 }

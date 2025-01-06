@@ -15,7 +15,7 @@
 
 ## 效果
 
-![img.png](img.png)
+![img](https://private-user-images.githubusercontent.com/193553894/400344351-d7e3dcf0-2dfb-463b-a166-9dc57617f5e5.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MzYxNTA0ODcsIm5iZiI6MTczNjE1MDE4NywicGF0aCI6Ii8xOTM1NTM4OTQvNDAwMzQ0MzUxLWQ3ZTNkY2YwLTJkZmItNDYzYi1hMTY2LTlkYzU3NjE3ZjVlNS5wbmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjUwMTA2JTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI1MDEwNlQwNzU2MjdaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1iZjVmZjFkZjk2NjRmMzRiNTVlNjc1NjJiZjgwMjQyZDg5ZGRjOWEwMDRlZTkyMjdmMDFlNTkyZWQzNGNhYWFiJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCJ9.exbRqPsS_HSumh2tin0y9sIica-5QU1ByjIzE9rN0tI)
 
 ## 安装
 
@@ -25,15 +25,39 @@ npm install vue-i18n-xlsx-view --save
 
 ## 使用方法
 
+### 依赖第三方框架和UI插件
+[![Vue 2](https://img.shields.io/badge/Vue.js-2.6%2B-brightgreen)](https://v2.vuejs.org/)
+[![Element UI](https://img.shields.io/badge/Element--UI-2.13%2B-orange)](https://element.eleme.io/)
+
+
+- 请确保消费项目有引入 **vue@2.6+** 和 **element-ui@2.13+**
+- 按需引入需要至少包含以下组件:
+  Select, Input,Option, Upload, Checkbox, CheckboxGroup, Radio, RadioButton, RadioGroup, Button, Table, TableColumn, Tabs, TabPane
+
+
 ### 全局引入
 
 在主入口文件（如 `main.js`）中引入并注册：
 
 ```javascript
-import Vue from 'vue';
-import VueI18nXlsxView from 'vue-i18n-xlsx-view';
+import Vue from 'vue'
+import 'vue-i18n-xlsx-view/dist/index.css'
+import VueI18nXlsxView from 'vue-i18n-xlsx-view'
 
-Vue.use(VueI18nXlsxView);
+Vue.use(VueI18nXlsxView)
+```
+
+### 按需引入
+
+在需要的组件或入口（如 `main.js`）中引入并注册：
+
+```javascript
+import Vue from 'vue'
+import 'vue-i18n-xlsx-view/dist/index.css'
+import { XlsxToJson } from 'vue-i18n-xlsx-view'
+
+// 注册组件
+Vue.component(XlsxToJson)
 ```
 
 ### 组件内使用
@@ -43,7 +67,7 @@ Vue.use(VueI18nXlsxView);
 ```vue
 <template>
   <div>
-    <vue-i18n-xlsx-view ref="xlsxToJson" />
+    <xlsx-to-json ref="xlsxToJson" />
   </div>
 </template>
 
@@ -52,15 +76,18 @@ export default {
   data() {
     return {
       jsonData: {
-        en: {
+        // 语言层级, 必须有, 语言关键字可自定义
+        'en-US': {
+          // 模块层级, 必须有, 自定义关键字
           greeting: {
+            // key 层级, 必须有, 可为Object/String等常规类型, 但不建议包含Array类型
             hello: 'Hello'
           },       
           farewell: {
             goodbye: 'Goodbye'
           }
         },
-        zh: {
+        'zh-CN': {
           greeting: {
             hello: '你好'
           },          
@@ -110,7 +137,7 @@ export default {
 </style>
 ```
 
-## 属性
+## init初始化函数入参options属性
 
 | 属性名      | 类型     | 默认值 | 描述                                                                       |
 | ----------- | -------- | ------ |--------------------------------------------------------------------------|
@@ -121,8 +148,8 @@ export default {
 | `shieldingModule`| String   | `''`     | 屏蔽的模块，支持逗号分隔的字符串，用于隐藏不需要展示的模块或语言, 比如element-ui的el模块。                     |
 | `langConfig`    | Array     | `[]`     | 语言配置数组，包含语言数据、语言关键字及其标签，例如 `{ data: zhCn, lang: 'zh-CN', label: '中文' }`。 |
 | `langConfig.lang`| String   | `''`     | 语言的关键字，用于指定该配置项对应的语言标识符。                                                 |
-| `langConfig.label`| String  | `''`     | 显示的语言名称。                                                      |
-| `langConfig.data`| Object   | `{}`     | 当前语言对应的 JSON 数据，包含该语言的键值对翻译内容。                                           |
+| `langConfig.label`| String  | `''`     | 显示的语言名称。                                                                 |
+| `langConfig.data`| Object   | `{}`     | 当前语言对应的 JSON 数据，包含该语言的键值对翻译内容, 需要注意按模块划分。                                |
 
 ## 开发与贡献
 

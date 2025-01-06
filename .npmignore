@@ -1,6 +1,4 @@
-node_modules
-dist/*.map
-.git
-.gitignore
-.vscode
-*.log
+*
+#!src/**/*
+!dist/**/*
+.DS_Store

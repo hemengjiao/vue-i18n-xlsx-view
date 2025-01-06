@@ -1,0 +1,85 @@
+.xlsxToJson {
+    padding: 20px 40px;
+}
+.xlsxToJson .header-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+.xlsxToJson .module-box {
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+.xlsxToJson h2 {
+    font-size: 18px;
+    font-weight: 700;
+}
+.xlsxToJson .leftAndRightLayout {
+    display: flex;
+    justify-content: space-between;
+}
+.xlsxToJson .leftAndRightLayout .right {
+    min-width: 800px;
+}
+.xlsxToJson .leftAndRightLayout .right .el-textarea textarea {
+    min-height: 200px !important;
+    font-size: 14px;
+}
+.xlsxToJson .leftAndRightLayout .right .el-tabs {
+    margin-top: 15px;
+    height: 100%;
+}
+.xlsxToJson .leftAndRightLayout .right .el-tabs__header {
+    margin-bottom: 0;
+}
+.xlsxToJson .leftAndRightLayout .right .el-tabs .el-tabs__item {
+    height: 28px;
+    line-height: 28px;
+    font-size: 14px;
+    font-weight: 400;
+}
+.xlsxToJson .leftAndRightLayout .right .el-tabs .el-tabs__item.is-active {
+    background: rgba(236, 105, 36, 0.15);
+    border-radius: 4px 4px 0 0;
+    color: rgba(0, 0, 0, 0.85);
+}
+.xlsxToJson .tip {
+    color: #999999;
+    font-size: 14px;
+}
+.xlsxToJson .red {
+    color: red !important;
+}
+.xlsxToJson .importRelated {
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+.xlsxToJson .importRelated > span {
+    display: inline-block;
+    vertical-align: top;
+    line-height: 28px;
+}
+.xlsxToJson .importRelated .selectFile {
+    display: inline-block;
+}
+.xlsxToJson .importRelated .downloadFile {
+    margin-top: 20px;
+}
+.xlsxToJson .downloadForm {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+.xlsxToJson ::v-deep .el-table {
+    border-bottom: 1px solid #dddddd;
+}
+.xlsxToJson ::v-deep .el-table th,
+.xlsxToJson ::v-deep .el-table td {
+    height: 20px;
+    padding: 0;
+}
+.xlsxToJson ::v-deep .el-table .cell {
+    line-height: 20px;
+}
+.xlsxToJson ::v-deep .el-table th {
+    height: 28px;
+}
