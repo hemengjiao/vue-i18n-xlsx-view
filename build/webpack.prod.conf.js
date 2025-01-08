@@ -18,6 +18,12 @@ module.exports = merge(baseWebpackConfig, {
     minimize: true,
     minimizer: [
       new TerserPlugin({
+        terserOptions: {
+          compress: {
+            drop_console: true, // 移除 console.log
+          },
+          mangle: false, // 禁用变量和函数名混淆
+        },
         extractComments: false // 禁用提取注释
       })
     ]

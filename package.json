@@ -1,6 +1,6 @@
 {
   "name": "vue-i18n-xlsx-view",
-  "version": "1.1.2",
+  "version": "1.1.4",
   "description": "专为 Vue 2 框架设计的多语言 JSON 与表格互转的可视化组件，旨在简化和优化多语言数据的管理和编辑。",
   "author": "Mengjiao He <Mengjiao.He@itiaoling.com>",
   "homepage": "https://github.com/hemengjiao/vue-i18n-xlsx-view",
